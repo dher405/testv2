@@ -16,6 +16,11 @@ services:
         value: production
       - key: PORT
         value: 4000
+      - key: FRONTEND_URL
+        fromService:
+          name: testv2-frontend
+          type: web
+          property: host
 
   - type: static
     name: testv2-frontend
@@ -23,7 +28,15 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     autoDeploy: false
+    pullRequestPreviewsEnabled: false
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: testv2-backend
+          type: web
+          property: host
+
