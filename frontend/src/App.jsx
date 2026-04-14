@@ -1,4 +1,9 @@
-function App() {
-  return <div style={{padding:'2rem'}}><h1>App</h1><p>Ready!</p></div>;
-}
+import React from 'react';
+import DogPictureRotator from './components/DogPictureRotator';
+const App = () => {
+  return (
+    <div>
+      <DogPictureRotator />
+    </div>
+  );};
 export default App;
