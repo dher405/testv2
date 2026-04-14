@@ -1,9 +1,9 @@
 import React from 'react';
-import DogPictureRotator from './components/DogPictureRotator';
+import DogImageRotator from './components/DogImageRotator.jsx';
 const App = () => {
   return (
     <div>
-      <DogPictureRotator />
+      <DogImageRotator />
     </div>
   );};
 export default App;
