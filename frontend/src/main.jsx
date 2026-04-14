@@ -1,4 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-function App() { return <div style={{padding:'2rem'}}><h1>App</h1><p>Ready!</p></div>; }
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+import App from './App.jsx';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
