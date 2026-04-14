@@ -1,9 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import DogImageRotator from './components/DogImageRotator';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <DogImageRotator />
-  </React.StrictMode>
-);
+    <App />
+  </React.StrictMode>,
+)
