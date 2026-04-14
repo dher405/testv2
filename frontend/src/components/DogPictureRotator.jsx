@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const images = [
   "https://images.dog.ceo/breeds/labrador/n02099712_2853.jpg",
@@ -53,24 +53,151 @@ const images = [
   "https://images.dog.ceo/breeds/husky/n02110185_11047.jpg"
 ];
 
-const INTERVAL_MS = 3000;
-
-function DogPictureRotator() {
+const DogPictureRotator = () => {
   const [index, setIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [speed, setSpeed] = useState('medium'); // slow, medium, fast
+  const [transition, setTransition] = useState('fade'); // fade, slide, zoom
+  const [direction, setDirection] = useState('forward'); // forward, backward
+
+  const intervalRef = useRef(null);
+  const swipeRef = useRef(null);
+
+  const speeds = {
+    slow: 5000,
+    medium: 3000,
+    fast: 1000,
+  };
+
+  const next = () => {
+    setIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prev = () => {
+    setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  const random = () => {
+    setIndex(Math.floor(Math.random() * images.length));
+  };
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const setTimer = () => {
+    clearInterval(intervalRef.current);
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => {
+        if (direction === 'forward') {
+          next();
+        } else {
+          prev();
+        }
+      }, speeds[speed]);
+    }
+  };
 
   useEffect(() => {
-    const timer = setInterval(() => setIndex(i => (i + 1) % images.length), INTERVAL_MS);
-    return () => clearInterval(timer);
+    setTimer();
+    return () => clearInterval(intervalRef.current);
+  }, [isPlaying, speed, direction]);
+
+  // Keyboard controls
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === 'Space') {
+        togglePlay();
+      } else if (e.code === 'ArrowLeft') {
+        prev();
+      } else if (e.code === 'ArrowRight') {
+        next();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Touch/swipe support
+  const handleTouchStart = (e) => {
+    swipeRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!swipeRef.current) return;
+
+    const deltaX = e.changedTouches[0].clientX - swipeRef.current;
+    const SWIPE_THRESHOLD = 50;
+
+    if (deltaX > SWIPE_THRESHOLD) {
+      prev();
+    } else if (deltaX < -SWIPE_THRESHOLD) {
+      next();
+    }
+
+    swipeRef.current = null;
+  };
+
+  const getTransitionClass = () => {
+    switch (transition) {
+      case 'fade':
+        return 'fade-transition';
+      case 'slide':
+        return 'slide-transition';
+      case 'zoom':
+        return 'zoom-transition';
+      default:
+        return 'fade-transition';
+    }
+  };
+
   return (
-    <img
-      src={images[index]}
-      alt="Dog"
-      style={{ maxWidth: '500px', maxHeight: '500px' }}
-      onError={e => { e.target.src='https://placedog.net/200/200'; }}
-    />
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <img
+        src={images[index]}
+        alt="Dog"
+        style={{ maxWidth: '500px', maxHeight: '500px', transition: 'opacity 0.5s ease-in-out' }}
+        onError={e => { e.target.src = 'https://placedog.net/200/200'; }}
+        className={getTransitionClass()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      />
+
+      <div style={{ margin: '10px 0' }}>
+        <button onClick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
+        <button onClick={prev}>Previous</button>
+        <button onClick={next}>Next</button>
+        <button onClick={random}>Random</button>
+      </div>
+
+      <div>
+        <label>Speed:</label>
+        <select value={speed} onChange={(e) => setSpeed(e.target.value)}>
+          <option value="slow">Slow</option>
+          <option value="medium">Medium</option>
+          <option value="fast">Fast</option>
+        </select>
+
+        <label>Transition:</label>
+        <select value={transition} onChange={(e) => setTransition(e.target.value)}>
+          <option value="fade">Fade</option>
+          <option value="slide">Slide</option>
+          <option value="zoom">Zoom</option>
+        </select>
+
+        <label>Direction:</label>
+        <select value={direction} onChange={(e) => setDirection(e.target.value)}>
+          <option value="forward">Forward</option>
+          <option value="backward">Backward</option>
+        </select>
+      </div>
+
+      <div>
+        Progress: {index + 1} / {images.length}
+      </div>
+    </div>
   );
-}
+};
 
 export default DogPictureRotator;
