@@ -25,7 +25,7 @@ services:
   - type: static
     name: testv2-frontend
     rootDir: frontend
-    buildCommand: npm install && npm run build
+    buildCommand: echo 'Running build command' && npm install && npm run build
     staticPublishPath: dist
     autoDeploy: false
     pullRequestPreviewsEnabled: false
