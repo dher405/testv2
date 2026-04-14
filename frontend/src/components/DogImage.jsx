@@ -1,6 +1,7 @@
-function DogImage({ src, alt }) {
+
+function DogImage({ imageUrl }) {
   return (
-    <img src={src} alt={alt} className="w-64 h-64 object-cover rounded-md" />
+    <img src={imageUrl} alt="Dog" className="max-w-full h-auto" />
   );
 }
 
