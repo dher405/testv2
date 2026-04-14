@@ -1,17 +1,14 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import DogBreedList from './pages/DogBreedList';
-import DogBreed from './pages/DogBreed';
+import Header from './components/Header';
+import Description from './components/Description';
+import ImageGallery from './components/ImageGallery';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/breeds" element={<DogBreedList />} />
-        <Route path="/breeds/:breedId" element={<DogBreed />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="bg-slate-900 min-h-screen">
+      <Header />
+      <Description />
+      <ImageGallery />
+    </div>
   );
 }
 
