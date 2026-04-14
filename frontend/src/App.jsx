@@ -1,11 +1,4 @@
-import Home from './pages/Home'
-
 function App() {
-  return (
-    <div>
-      <Home />
-    </div>
-  );
+  return <div style={{padding:'2rem'}}><h1>App</h1><p>Ready!</p></div>;
 }
-
 export default App;
