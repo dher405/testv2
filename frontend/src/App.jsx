@@ -5,8 +5,9 @@ import DogPictureRotator from './components/DogPictureRotator.jsx';
 function App() {
   return (
     <div className="App">
-      <DogPictureRotator />
-      <Retro80sSynth />
+      <Retro80sSynth>
+        <DogPictureRotator />
+      </Retro80sSynth>
     </div>
   );
 }
