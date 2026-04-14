@@ -50,7 +50,8 @@ const images = [
   "https://images.dog.ceo/breeds/hound-walker/n02089867_1001.jpg",
   "https://images.dog.ceo/breeds/eskimo/n02109961_2001.jpg",
   "https://images.dog.ceo/breeds/samoyed/n02111889_2001.jpg",
-  "https://images.dog.ceo/breeds/husky/n02110185_11047.jpg"
+  "https://images.dog.ceo/breeds/husky/n02110185_11047.jpg",
+  "https://images.dog.ceo/breeds/affenpinscher/n02110627_4545.jpg"
 ];
 
 const DogPictureRotator = () => {
