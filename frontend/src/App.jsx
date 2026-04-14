@@ -1,12 +1,14 @@
-import DogPictureRotator from './components/DogPictureRotator.jsx'
+import React from 'react';
+import Retro80sSynth from './components/Retro80sSynth.jsx';
+import DogPictureRotator from './components/DogPictureRotator.jsx';
 
 function App() {
   return (
-    <div style={{padding:'2rem'}}>
-      <h1>App</h1>
-      <p>Ready!</p>
+    <div className="App">
       <DogPictureRotator />
+      <Retro80sSynth />
     </div>
-  )
+  );
 }
-export default App
+
+export default App;
